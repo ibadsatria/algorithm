@@ -7,23 +7,31 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestAddEdge(t *testing.T) {
-	var g graph
-	listVer := []Vertex{
+var (
+	g       graph
+	listVer []Vertex
+)
+
+func setup() {
+	listVer = []Vertex{
 		Vertex{0, false},
 		Vertex{1, false},
 		Vertex{2, false},
 		Vertex{3, false},
 	}
 
-	t.Run("TestAddEdge", func(t *testing.T) {
-		g.AddEdge(&listVer[0], &listVer[1])
-		g.AddEdge(&listVer[0], &listVer[2])
-		g.AddEdge(&listVer[1], &listVer[2])
-		g.AddEdge(&listVer[2], &listVer[0])
-		g.AddEdge(&listVer[2], &listVer[3])
-		g.AddEdge(&listVer[3], &listVer[3])
+	g.AddEdge(&listVer[0], &listVer[1])
+	g.AddEdge(&listVer[0], &listVer[2])
+	g.AddEdge(&listVer[1], &listVer[2])
+	g.AddEdge(&listVer[2], &listVer[0])
+	g.AddEdge(&listVer[2], &listVer[3])
+	g.AddEdge(&listVer[3], &listVer[3])
+}
 
+func TestAddEdge(t *testing.T) {
+
+	t.Run("TestAddEdge", func(t *testing.T) {
+		setup()
 		//for vertex 0
 		assert.Contains(t, g.vertexEdge[&listVer[0]], &listVer[1])
 		assert.Contains(t, g.vertexEdge[&listVer[0]], &listVer[2])
@@ -40,21 +48,9 @@ func TestAddEdge(t *testing.T) {
 	})
 }
 
-func ExampleTraverse() {
-	var g graph
-	listVer := []Vertex{
-		Vertex{0, false},
-		Vertex{1, false},
-		Vertex{2, false},
-		Vertex{3, false},
-	}
-
-	g.AddEdge(&listVer[0], &listVer[1])
-	g.AddEdge(&listVer[0], &listVer[2])
-	g.AddEdge(&listVer[1], &listVer[2])
-	g.AddEdge(&listVer[2], &listVer[0])
-	g.AddEdge(&listVer[2], &listVer[3])
-	g.AddEdge(&listVer[3], &listVer[3])
+// ExampleTraverse test assert output by commented value
+func Example() {
+	setup()
 
 	result := g.Traverse(&listVer[2])
 	fmt.Println(result)
